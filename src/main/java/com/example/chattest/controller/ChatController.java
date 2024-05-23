@@ -18,6 +18,9 @@ public class ChatController {
 
     private final ChatService chatService;
 
+    @RequestMapping(value = "/chat/testchat")
+    public String test() { return "chat/testchat"; }
+
     @RequestMapping("/chat/chatList")
     public String chatList(Model model){
         List<ChatRoom> roomList = chatService.findAllRoom();
