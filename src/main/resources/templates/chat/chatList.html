@@ -12,7 +12,7 @@
 </form>
 
 <table>
-    <tr th:each="room : ${roomList}" >
+    <tr th:each="room : ${roomList}">
         <td>
             <a th:href="@{chatRoom(roomId=${room.roomId} )}"
                th:text="${room.name}"></a>
