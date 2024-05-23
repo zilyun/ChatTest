@@ -16,17 +16,20 @@
 
 <script th:inline="javascript">
     function enterRoom(socket){
-        var enterMsg={"type" : "ENTER","roomId":[[${room.roomId}]],"sender":"chee","msg":""}; //sender는  글쓸때 수정하자.
+        var enterMsg={"type" : "ENTER","chat_room_id":[[${room.chat_room_id}]], "nickname":[[${nickname}]], "msg":""}; //sender는  글쓸때 수정하자.
         socket.send(JSON.stringify(enterMsg));
     }
+
     let socket = new WebSocket("ws://localhost:9090/ws/chat");
 
     socket.onopen = function (e) {
         console.log('open server!')
         enterRoom(socket);
     };
+
     socket.onclose=function(e){
         console.log('disconnet');
+        quit();
     }
 
     socket.onerror = function (e){
@@ -42,16 +45,16 @@
         msgArea.append(newMsg);
     }
 
-
-    //메세지 보내기 버튼 눌렀을 떄..
+    // 2024-05-23, 메세지 보내기 버튼 눌렀을 경우 처리
     function sendMsg() {
         let content=document.querySelector('.content').value;
-        var talkMsg={"type" : "TALK","roomId":[[${room.roomId}]] ,"sender":"chee","msg":content};
+        var talkMsg={"type" : "TALK","chat_room_id":[[${room.chat_room_id}]],"nickname":[[${nickname}]],"msg":content};
         socket.send(JSON.stringify(talkMsg));
     }
 
+    // 2024-05-23, 채팅방 나가기 기능 예정
     function quit(){
-        var quitMsg={"type" : "QUIT","roomId":[[${room.roomId}]] ,"sender":"chee","msg":""};
+        var quitMsg={"type" : "QUIT","chat_room_id":[[${room.chat_room_id}]],"nickname":[[${nickname}]],"msg":""};
         socket.send(JSON.stringify(quitMsg));
         socket.close();
         location.href="/chat/chatList";

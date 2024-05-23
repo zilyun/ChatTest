@@ -1,8 +1,8 @@
 -- 순서대로 삭제
-#DROP TABLE com_chat_room;
-#DROP TABLE com_message;
-#DROP TABLE com_chat_participate;
-#DROP TABLE member;
+# DROP TABLE com_chat_room;
+# DROP TABLE com_message;
+# DROP TABLE com_chat_participate;
+# DROP TABLE member;
 
 -- 테스트 임시 멤버 테이블 - 병합 시 삭제 예정
 CREATE TABLE member
@@ -21,6 +21,7 @@ ALTER TABLE member
 CREATE TABLE com_chat_room
 (
     chat_room_num    BIGINT                             NOT NULL,
+    chat_room_id     varchar(200) UNIQUE                NOT NULL,
     chat_create_date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     name             VARCHAR(50)                        NOT NULL
 );
@@ -55,12 +56,10 @@ CREATE TABLE com_message
 ALTER TABLE com_message
     ADD CONSTRAINT PK_MESSAGE_NUM PRIMARY KEY (message_num);
 
-
 -- message-FK
 ALTER TABLE com_message
     ADD CONSTRAINT FK_CHAT_MESSAGE_NUM
-        FOREIGN KEY (chat_room_num) REFERENCES com_chat_room (chat_room_num)
-;
+        FOREIGN KEY (chat_room_num) REFERENCES com_chat_room (chat_room_num);
 
 ALTER TABLE com_message
     ADD CONSTRAINT FK_SENDER_MESSAGE_NUM
