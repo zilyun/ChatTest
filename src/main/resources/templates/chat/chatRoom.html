@@ -15,11 +15,6 @@
 </body>
 
 <script th:inline="javascript">
-    function enterRoom(socket){
-        var enterMsg={"type" : "ENTER","chat_room_id":[[${room.chat_room_id}]], "nickname":[[${nickname}]], "msg":""}; //sender는  글쓸때 수정하자.
-        socket.send(JSON.stringify(enterMsg));
-    }
-
     let socket = new WebSocket("ws://localhost:9090/ws/chat");
 
     socket.onopen = function (e) {
@@ -29,7 +24,6 @@
 
     socket.onclose=function(e){
         console.log('disconnet');
-        quit();
     }
 
     socket.onerror = function (e){
@@ -43,6 +37,11 @@
         let newMsg = document.createElement('div');
         newMsg.innerText=e.data;
         msgArea.append(newMsg);
+    }
+
+    function enterRoom(socket){
+        var enterMsg={"type" : "ENTER","chat_room_id":[[${room.chat_room_id}]], "nickname":[[${nickname}]], "msg":""}; //sender는  글쓸때 수정하자.
+        socket.send(JSON.stringify(enterMsg));
     }
 
     // 2024-05-23, 메세지 보내기 버튼 눌렀을 경우 처리
